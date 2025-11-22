@@ -1,2022 +1,2550 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JobGati - AI-Powered Hyperlocal Skill-to-Job Match Platform</title>
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-        :root {
-            --primary: #3B82F6;
-            --secondary: #F97316;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --danger: #EF4444;
-            --light: #F9FAFB;
-            --dark: #1F2937;
-            --gray: #6B7280;
-            --white: #FFFFFF;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header & Navigation */
-        header {
-            background-color: var(--white);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
+      :root {
+        --primary: #3b82f6;
+        --secondary: #f97316;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --light: #f9fafb;
+        --dark: #1f2937;
+        --gray: #6b7280;
+        --white: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header & Navigation */
+      header {
+        background-color: var(--white);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: bold;
+        font-size: 24px;
+        color: var(--dark);
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        background-color: var(--secondary);
+        color: var(--white);
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 500;
+        transition: color 0.3s;
+        padding: 5px 10px;
+        border-radius: 4px;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--secondary);
+        background-color: rgba(249, 115, 22, 0.1);
+      }
+
+      .nav-actions {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .language-switcher {
+        display: flex;
+        gap: 5px;
+        border: 1px solid var(--gray);
+        border-radius: 20px;
+        padding: 5px;
+        background-color: var(--white);
+      }
+
+      .language-switcher button {
+        background: none;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s;
+      }
+
+      .language-switcher button.active {
+        background-color: var(--primary);
+        color: var(--white);
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: none;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+      }
+
+      .btn-primary {
+        background-color: var(--primary);
+        color: var(--white);
+      }
+
+      .btn-primary:hover {
+        background-color: #2563eb;
+      }
+
+      .btn-secondary {
+        background-color: var(--secondary);
+        color: var(--white);
+      }
+
+      .btn-secondary:hover {
+        background-color: #ea580c;
+      }
+
+      .btn-outline {
+        background-color: transparent;
+        border: 1px solid var(--primary);
+        color: var(--primary);
+      }
+
+      .btn-outline:hover {
+        background-color: var(--primary);
+        color: var(--white);
+      }
+
+      /* Hero Section */
+      .hero {
+        padding: 80px 0;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e1f5fe 100%);
+      }
+
+      .hero-content {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+      }
+
+      .hero-text {
+        flex: 1;
+      }
+
+      .hero-title {
+        font-size: 48px;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 20px;
+        color: var(--dark);
+      }
+
+      .hero-title span {
+        color: var(--primary);
+      }
+
+      .hero-description {
+        font-size: 18px;
+        color: var(--gray);
+        margin-bottom: 30px;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 15px;
+      }
+
+      .hero-visual {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .process-flow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .process-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 120px;
+      }
+
+      .step-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background-color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .step-icon:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .step-icon svg {
+        width: 30px;
+        height: 30px;
+      }
+
+      .step-text {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .step-arrow {
+        color: var(--gray);
+        font-size: 20px;
+        margin: 0 10px;
+      }
+
+      /* Sections */
+      .section {
+        padding: 80px 0;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 50px;
+        color: var(--dark);
+      }
+
+      .section-title span {
+        color: var(--primary);
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .feature-card {
+        background-color: var(--white);
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: rgba(59, 130, 246, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .feature-icon svg {
+        width: 30px;
+        height: 30px;
+        color: var(--primary);
+      }
+
+      .feature-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .feature-description {
+        color: var(--gray);
+      }
+
+      /* Interactive Sections */
+      .interactive-section {
+        background-color: var(--white);
+        padding: 60px 0;
+      }
+
+      .section-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .section-header h2 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: var(--dark);
+      }
+
+      .section-header p {
+        font-size: 18px;
+        color: var(--gray);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .analysis-container {
+        background-color: var(--light);
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .analysis-result {
+        background-color: var(--white);
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .analysis-result h3 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: var(--dark);
+      }
+
+      .skill-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 15px 0;
+      }
+
+      .skill-item {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--primary);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .skill-item.missing {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--danger);
+      }
+
+      .gap-score {
+        text-align: center;
+        margin: 30px 0;
+      }
+
+      .score-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: conic-gradient(var(--primary) 70%, #e5e7eb 0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        position: relative;
+      }
+
+      .score-circle::before {
+        content: "";
+        position: absolute;
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background-color: var(--white);
+      }
+
+      .score-text {
+        position: relative;
+        z-index: 1;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .training-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .training-option {
+        background-color: var(--white);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s;
+      }
+
+      .training-option:hover {
+        transform: translateY(-5px);
+      }
+
+      .training-option h4 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: var(--dark);
+      }
+
+      .training-option p {
+        font-size: 14px;
+        color: var(--gray);
+        margin-bottom: 15px;
+      }
+
+      .job-matches {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .job-match {
+        background-color: var(--white);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        border-left: 4px solid var(--primary);
+      }
+
+      .job-match h4 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: var(--dark);
+      }
+
+      .job-match p {
+        font-size: 14px;
+        color: var(--gray);
+        margin-bottom: 15px;
+      }
+
+      .match-percentage {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 10px;
+      }
+
+      /* Dashboard */
+      .dashboard {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 30px;
+      }
+
+      .profile-card {
+        background-color: var(--white);
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        text-align: center;
+      }
+
+      .profile-image {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: var(--primary);
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 40px;
+        font-weight: bold;
+        position: relative;
+      }
+
+      .verified-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: var(--success);
+        color: var(--white);
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+
+      .profile-name {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .profile-title {
+        color: var(--gray);
+        margin-bottom: 20px;
+      }
+
+      .skills-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .skill-tag {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--primary);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .dashboard-content {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+      }
+
+      .dashboard-card {
+        background-color: var(--white);
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .card-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+
+      .skill-gap-chart {
+        width: 100%;
+        height: 300px;
+        background-color: #f3f4f6;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gray);
+      }
+
+      .progress-circle {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: conic-gradient(var(--primary) 80%, #e5e7eb 0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        position: relative;
+      }
+
+      .progress-circle::before {
+        content: "";
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: var(--white);
+      }
+
+      .progress-text {
+        position: relative;
+        z-index: 1;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .job-match-dashboard {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        background-color: #f0f9ff;
+        border-left: 4px solid var(--primary);
+      }
+
+      .match-percentage-dashboard {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .job-details h4 {
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+
+      .job-details p {
+        color: var(--gray);
+        font-size: 14px;
+      }
+
+      /* Forms */
+      .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: var(--white);
+        border-radius: 10px;
+        padding: 40px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .form-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+
+      .file-upload {
+        border: 2px dashed #d1d5db;
+        border-radius: 6px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 0.3s;
+      }
+
+      .file-upload:hover {
+        border-color: var(--primary);
+      }
+
+      .file-upload svg {
+        width: 40px;
+        height: 40px;
+        color: var(--gray);
+        margin-bottom: 10px;
+      }
+
+      .voice-input {
+        background-color: #fef3c7;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .voice-btn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: var(--secondary);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        cursor: pointer;
+      }
+
+      .voice-btn svg {
+        width: 30px;
+        height: 30px;
+      }
+
+      /* Login Modal */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      .modal {
+        background-color: var(--white);
+        border-radius: 10px;
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .modal-title {
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--gray);
+      }
+
+      .login-form .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-footer {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .form-footer a {
+        color: var(--primary);
+        text-decoration: none;
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--dark);
+        color: var(--white);
+        padding: 50px 0 20px;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .footer-column h3 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: var(--white);
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 10px;
+      }
+
+      .footer-links a {
+        color: #d1d5db;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: var(--white);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #374151;
+        color: #9ca3af;
+        font-size: 14px;
+      }
+
+      /* Karma AI Button */
+      .karma-ai {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: var(--primary);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        z-index: 99;
+      }
+
+      .karma-ai svg {
+        width: 30px;
+        height: 30px;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
         .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
+          flex-direction: column;
+          gap: 15px;
         }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            font-size: 24px;
-            color: var(--dark);
-            text-decoration: none;
-        }
-        
-        .logo-icon {
-            background-color: var(--secondary);
-            color: var(--white);
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        
+
         .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
+          gap: 15px;
         }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            transition: color 0.3s;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-        
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--secondary);
-            background-color: rgba(249, 115, 22, 0.1);
-        }
-        
-        .nav-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .language-switcher {
-            display: flex;
-            gap: 5px;
-            border: 1px solid var(--gray);
-            border-radius: 20px;
-            padding: 5px;
-            background-color: var(--white);
-        }
-        
-        .language-switcher button {
-            background: none;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        
-        .language-switcher button.active {
-            background-color: var(--primary);
-            color: var(--white);
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: var(--white);
-        }
-        
-        .btn-primary:hover {
-            background-color: #2563EB;
-        }
-        
-        .btn-secondary {
-            background-color: var(--secondary);
-            color: var(--white);
-        }
-        
-        .btn-secondary:hover {
-            background-color: #EA580C;
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-        }
-        
-        .btn-outline:hover {
-            background-color: var(--primary);
-            color: var(--white);
-        }
-        
-        /* Hero Section */
-        .hero {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #F0F9FF 0%, #E1F5FE 100%);
-        }
-        
+
         .hero-content {
-            display: flex;
-            align-items: center;
-            gap: 50px;
+          flex-direction: column;
+          text-align: center;
         }
-        
-        .hero-text {
-            flex: 1;
-        }
-        
+
         .hero-title {
-            font-size: 48px;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            color: var(--dark);
+          font-size: 36px;
         }
-        
-        .hero-title span {
-            color: var(--primary);
-        }
-        
-        .hero-description {
-            font-size: 18px;
-            color: var(--gray);
-            margin-bottom: 30px;
-        }
-        
+
         .hero-actions {
-            display: flex;
-            gap: 15px;
+          justify-content: center;
         }
-        
-        .hero-visual {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
+
         .process-flow {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 600px;
-            margin: 0 auto;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 20px;
         }
-        
-        .process-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            width: 120px;
-        }
-        
-        .step-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background-color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .step-icon:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .step-icon svg {
-            width: 30px;
-            height: 30px;
-        }
-        
-        .step-text {
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
+
         .step-arrow {
-            color: var(--gray);
-            font-size: 20px;
-            margin: 0 10px;
+          display: none;
         }
-        
-        /* Sections */
-        .section {
-            padding: 80px 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 50px;
-            color: var(--dark);
-        }
-        
-        .section-title span {
-            color: var(--primary);
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .feature-card {
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: rgba(59, 130, 246, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .feature-icon svg {
-            width: 30px;
-            height: 30px;
-            color: var(--primary);
-        }
-        
-        .feature-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        
-        .feature-description {
-            color: var(--gray);
-        }
-        
-        /* Interactive Sections */
-        .interactive-section {
-            background-color: var(--white);
-            padding: 60px 0;
-        }
-        
-        .section-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .section-header h2 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-        
-        .section-header p {
-            font-size: 18px;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .analysis-container {
-            background-color: var(--light);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .analysis-result {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .analysis-result h3 {
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-        
-        .skill-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        
-        .skill-item {
-            background-color: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .skill-item.missing {
-            background-color: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-        }
-        
-        .gap-score {
-            text-align: center;
-            margin: 30px 0;
-        }
-        
-        .score-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: conic-gradient(var(--primary) 70%, #E5E7EB 0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            position: relative;
-        }
-        
-        .score-circle::before {
-            content: '';
-            position: absolute;
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background-color: var(--white);
-        }
-        
-        .score-text {
-            position: relative;
-            z-index: 1;
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .training-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .training-option {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
-        }
-        
-        .training-option:hover {
-            transform: translateY(-5px);
-        }
-        
-        .training-option h4 {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: var(--dark);
-        }
-        
-        .training-option p {
-            font-size: 14px;
-            color: var(--gray);
-            margin-bottom: 15px;
-        }
-        
-        .job-matches {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .job-match {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-            border-left: 4px solid var(--primary);
-        }
-        
-        .job-match h4 {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: var(--dark);
-        }
-        
-        .job-match p {
-            font-size: 14px;
-            color: var(--gray);
-            margin-bottom: 15px;
-        }
-        
-        .match-percentage {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-        
-        /* Dashboard */
+
         .dashboard {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 30px;
+          grid-template-columns: 1fr;
         }
-        
-        .profile-card {
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
-        
-        .profile-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 40px;
-            font-weight: bold;
-            position: relative;
-        }
-        
-        .verified-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--success);
-            color: var(--white);
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-        
-        .profile-name {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .profile-title {
-            color: var(--gray);
-            margin-bottom: 20px;
-        }
-        
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .skill-tag {
-            background-color: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
+
         .dashboard-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
+          grid-template-columns: 1fr;
         }
-        
-        .dashboard-card {
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        
-        .skill-gap-chart {
-            width: 100%;
-            height: 300px;
-            background-color: #F3F4F6;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray);
-        }
-        
-        .progress-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: conic-gradient(var(--primary) 80%, #E5E7EB 0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            position: relative;
-        }
-        
-        .progress-circle::before {
-            content: '';
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background-color: var(--white);
-        }
-        
-        .progress-text {
-            position: relative;
-            z-index: 1;
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .job-match-dashboard {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            background-color: #F0F9FF;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .match-percentage-dashboard {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .job-details h4 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        
-        .job-details p {
-            color: var(--gray);
-            font-size: 14px;
-        }
-        
-        /* Forms */
-        .form-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 40px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .form-title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
+
         .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+          grid-template-columns: 1fr;
         }
-        
-        .form-group {
-            margin-bottom: 20px;
+
+        .workflow-step,
+        .workflow-step:nth-child(even) {
+          flex-direction: column;
+          text-align: center;
         }
-        
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #D1D5DB;
-            border-radius: 6px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        .file-upload {
-            border: 2px dashed #D1D5DB;
-            border-radius: 6px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: border-color 0.3s;
-        }
-        
-        .file-upload:hover {
-            border-color: var(--primary);
-        }
-        
-        .file-upload svg {
-            width: 40px;
-            height: 40px;
-            color: var(--gray);
-            margin-bottom: 10px;
-        }
-        
-        .voice-input {
-            background-color: #FEF3C7;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            margin-top: 20px;
-        }
-        
-        .voice-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: var(--secondary);
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-            cursor: pointer;
-        }
-        
-        .voice-btn svg {
-            width: 30px;
-            height: 30px;
-        }
-        
-        /* Login Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .modal {
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .modal-title {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--gray);
-        }
-        
-        .login-form .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-footer {
-            text-align: center;
-            margin-top: 20px;
-        }
-        
-        .form-footer a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--dark);
-            color: var(--white);
-            padding: 50px 0 20px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-column h3 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: var(--white);
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-links a {
-            color: #D1D5DB;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: var(--white);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #374151;
-            color: #9CA3AF;
-            font-size: 14px;
-        }
-        
-        /* Karma AI Button */
-        .karma-ai {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            z-index: 99;
-        }
-        
-        .karma-ai svg {
-            width: 30px;
-            height: 30px;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .nav-links {
-                gap: 15px;
-            }
-            
-            .hero-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .hero-title {
-                font-size: 36px;
-            }
-            
-            .hero-actions {
-                justify-content: center;
-            }
-            
-            .process-flow {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 20px;
-            }
-            
-            .step-arrow {
-                display: none;
-            }
-            
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-            
-            .dashboard-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .workflow-step, .workflow-step:nth-child(even) {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+      const API_URL = "http://localhost:4000";
+      const { useState, useEffect } = React;
+      const LoginPage = () => {
+        const [email, setEmail] = React.useState("");
+        const [password, setPassword] = React.useState("");
+        const [error, setError] = React.useState("");
 
-        // Language content
-        const content = {
-            en: {
-                nav: {
-                    home: "Home",
-                    forJobSeekers: "For Job Seekers",
-                    forBusinesses: "For Businesses",
-                    about: "About",
-                    contact: "Contact"
-                },
-                hero: {
-                    title: "Close Your <span>Skill Gap</span>. Unlock Local Opportunities.",
-                    description: "Connecting local talent with businesses by identifying and bridging skill gaps.",
-                    jobSeekerBtn: "I am a Job Seeker",
-                    businessBtn: "I am a Business"
-                },
-                features: {
-                    title: "How <span>JobGati</span> Works",
-                    step1: "Skill Analysis",
-                    step2: "Gap Identification",
-                    step3: "Training Bridge",
-                    step4: "Job Matching"
-                },
-                interactive: {
-                    skillAnalysis: {
-                        title: "AI Skill Analysis",
-                        description: "Our AI analyzes required skills for local jobs and compares them with your profile",
-                        analyzeBtn: "Analyze My Skills",
-                        resultTitle: "Skill Analysis Results",
-                        requiredSkills: "Required Skills for Local Jobs",
-                        yourSkills: "Your Current Skills"
-                    },
-                    gapIdentification: {
-                        title: "Skill Gap Identification",
-                        description: "Identify specific skill gaps and generate your Skill Gap Score",
-                        identifyBtn: "Identify Skill Gaps",
-                        resultTitle: "Skill Gap Analysis",
-                        gapScore: "Your Skill Gap Score",
-                        missingSkills: "Skills You Need to Develop"
-                    },
-                    trainingBridge: {
-                        title: "Training Bridge",
-                        description: "Get personalized training suggestions to close your skill gaps",
-                        findTrainingBtn: "Find Training",
-                        resultTitle: "Recommended Training",
-                        microCourses: "Micro-Courses",
-                        trainingCenters: "Nearby Training Centers"
-                    },
-                    jobMatching: {
-                        title: "Job Matching",
-                        description: "Find local job opportunities that match your skills",
-                        findJobsBtn: "Find Jobs",
-                        resultTitle: "Job Matches",
-                        matchScore: "Match Score"
-                    }
-                },
-                dashboard: {
-                    welcome: "Hello, Abhishek Jaiswal!",
-                    profile: {
-                        name: "Abhishek Jaiswal",
-                        title: "ITI Diploma Holder"
-                    },
-                    skillGap: "Skill Gap Heatmap",
-                    progress: "Progress",
-                    ready: "You are 80% ready for Solar Technician role.",
-                    unlocked: "Job Unlocked!",
-                    askAI: "Ask Karma AI",
-                    aiDesc: "Your personalized assistant.",
-                    topMatches: "Top Matches",
-                    match1: {
-                        percent: "70%",
-                        title: "Solar Technician job at XYZ Industry.",
-                        desc: "Requires L3 Welding, L2 Solar Install."
-                    },
-                    match2: {
-                        percent: "85%",
-                        title: "Lathe Machine Operator at Precision Tools.",
-                        desc: "Requires L3 Lathe Operation."
-                    },
-                    closeGap: "Close Gap (Suggest Training)",
-                    viewDetails: "View Details",
-                    applyNow: "Apply Now"
-                },
-                forms: {
-                    join: "Join JobGati",
-                    fullName: "Full Name",
-                    age: "Age",
-                    education: "Highest Education Level",
-                    educationOptions: ["Primary School", "High School / 10th", "ITI / Diploma", "Graduate / Degree"],
-                    skills: "Skills (Type and Select)",
-                    skillsPlaceholder: "e.g., Welding, Digital Literacy",
-                    certifications: "Certifications (Upload)",
-                    uploadText: "Upload Certificates (PDF, JPEG)",
-                    maxSize: "Max 5MB file size",
-                    accessibility: "Accessibility Feature",
-                    voiceInput: "Voice Input (helpful for rural users)",
-                    register: "Register",
-                    login: "Login",
-                    forgotPassword: "Forgot Password?",
-                    businessReg: "Register Your Business",
-                    businessName: "Business Name",
-                    industry: "Industry",
-                    industryOptions: ["Manufacturing", "Construction", "Retail", "Services", "Technology", "Other"],
-                    location: "Location",
-                    contactPerson: "Contact Person",
-                    jobPositions: "Job Positions Needed",
-                    jobPositionsPlaceholder: "List the positions you need to fill...",
-                    requiredSkills: "Required Skills",
-                    requiredSkillsPlaceholder: "e.g., Welding, Digital Literacy",
-                    registerBusiness: "Register Business",
-                    loginTitle: "Login to JobGati",
-                    email: "Email",
-                    password: "Password",
-                    rememberMe: "Remember me",
-                    noAccount: "Don't have an account?",
-                    signUp: "Sign up"
-                }
-            },
-            hi: {
-                nav: {
-                    home: "होम",
-                    forJobSeekers: "नौकरी चाहने वालों के लिए",
-                    forBusinesses: "व्यवसायों के लिए",
-                    about: "हमारे बारे में",
-                    contact: "संपर्क करें"
-                },
-                hero: {
-                    title: "अपने <span>स्किल गैप</span> को बंद करें। स्थानीय अवसरों को अनलॉक करें।",
-                    description: "स्थानीय प्रतिभा को व्यवसायों से जोड़कर कौशल अंतराल की पहचान करना और उन्हें पाटना।",
-                    jobSeekerBtn: "मैं एक नौकरी चाहने वाला हूं",
-                    businessBtn: "मैं एक व्यवसाय हूं"
-                },
-                features: {
-                    title: "<span>JobGati</span> कैसे काम करता है",
-                    step1: "कौशल विश्लेषण",
-                    step2: "अंतराल पहचान",
-                    step3: "प्रशिक्षण पुल",
-                    step4: "नौकरी मिलान"
-                },
-                interactive: {
-                    skillAnalysis: {
-                        title: "AI कौशल विश्लेषण",
-                        description: "हमारी AI स्थानीय नौकरियों के लिए आवश्यक कौशल का विश्लेषण करती है और उनकी तुलना आपकी प्रोफाइल से करती है",
-                        analyzeBtn: "मेरे कौशल का विश्लेषण करें",
-                        resultTitle: "कौशल विश्लेषण परिणाम",
-                        requiredSkills: "स्थानीय नौकरियों के लिए आवश्यक कौशल",
-                        yourSkills: "आपके वर्तमान कौशल"
-                    },
-                    gapIdentification: {
-                        title: "कौशल अंतराल पहचान",
-                        description: "विशिष्ट कौशल अंतराल की पहचान करें और अपना स्किल गैप स्कोर जनरेट करें",
-                        identifyBtn: "कौशल अंतराल पहचानें",
-                        resultTitle: "कौशल अंतराल विश्लेषण",
-                        gapScore: "आपका स्किल गैप स्कोर",
-                        missingSkills: "विकसित करने के लिए आवश्यक कौशल"
-                    },
-                    trainingBridge: {
-                        title: "प्रशिक्षण पुल",
-                        description: "अपने कौशल अंतराल को पाटने के लिए व्यक्तिगत प्रशिक्षण सुझाव प्राप्त करें",
-                        findTrainingBtn: "प्रशिक्षण ढूंढें",
-                        resultTitle: "अनुशंसित प्रशिक्षण",
-                        microCourses: "माइक्रो-कोर्स",
-                        trainingCenters: "नजदीकी प्रशिक्षण केंद्र"
-                    },
-                    jobMatching: {
-                        title: "नौकरी मिलान",
-                        description: "आपके कौशल से मेल खाने वाली स्थानीय नौकरी के अवसर ढूंढें",
-                        findJobsBtn: "नौकरियां ढूंढें",
-                        resultTitle: "नौकरी मैच",
-                        matchScore: "मैच स्कोर"
-                    }
-                },
-                dashboard: {
-                    welcome: "नमस्ते, अभिषेक जायसवाल!",
-                    profile: {
-                        name: "अभिषेक जायसवाल",
-                        title: "आईटीआई डिप्लोमा धारक"
-                    },
-                    skillGap: "स्किल गैप हीटमैप",
-                    progress: "प्रगति",
-                    ready: "आप सोलर टेक्निशियन की भूमिका के लिए 80% तैयार हैं।",
-                    unlocked: "नौकरी अनलॉक!",
-                    askAI: "कर्मा AI से पूछें",
-                    aiDesc: "आपका व्यक्तिगत सहायक।",
-                    topMatches: "शीर्ष मैच",
-                    match1: {
-                        percent: "70%",
-                        title: "XYZ इंडस्ट्री में सोलर टेक्निशियन की नौकरी।",
-                        desc: "L3 वेल्डिंग, L2 सोलर इंस्टॉल की आवश्यकता है।"
-                    },
-                    match2: {
-                        percent: "85%",
-                        title: "प्रिसिजन टूल्स में लेथ मशीन ऑपरेटर।",
-                        desc: "L3 लेथ ऑपरेशन की आवश्यकता है।"
-                    },
-                    closeGap: "गैप बंद करें (प्रशिक्षण सुझाव)",
-                    viewDetails: "विवरण देखें",
-                    applyNow: "अभी आवेदन करें"
-                },
-                forms: {
-                    join: "JobGati से जुड़ें",
-                    fullName: "पूरा नाम",
-                    age: "उम्र",
-                    education: "उच्चतम शिक्षा स्तर",
-                    educationOptions: ["प्राथमिक विद्यालय", "हाई स्कूल / 10वीं", "आईटीआई / डिप्लोमा", "स्नातक / डिग्री"],
-                    skills: "कौशल (टाइप करें और चुनें)",
-                    skillsPlaceholder: "उदाहरण: वेल्डिंग, डिजिटल साक्षरता",
-                    certifications: "प्रमाणपत्र (अपलोड करें)",
-                    uploadText: "प्रमाणपत्र अपलोड करें (PDF, JPEG)",
-                    maxSize: "अधिकतम 5MB फाइल साइज",
-                    accessibility: "एक्सेसिबिलिटी फीचर",
-                    voiceInput: "वॉइस इनपुट (ग्रामीण उपयोगकर्ताओं के लिए सहायक)",
-                    register: "रजिस्टर करें",
-                    login: "लॉगिन",
-                    forgotPassword: "पासवर्ड भूल गए?",
-                    businessReg: "अपने व्यवसाय को पंजीकृत करें",
-                    businessName: "व्यवसाय का नाम",
-                    industry: "उद्योग",
-                    industryOptions: ["विनिर्माण", "निर्माण", "खुदरा", "सेवाएं", "प्रौद्योगिकी", "अन्य"],
-                    location: "स्थान",
-                    contactPerson: "संपर्क व्यक्ति",
-                    jobPositions: "आवश्यक नौकरी के पद",
-                    jobPositionsPlaceholder: "भरने के लिए आवश्यक पदों की सूची बनाएं...",
-                    requiredSkills: "आवश्यक कौशल",
-                    requiredSkillsPlaceholder: "उदाहरण: वेल्डिंग, डिजिटल साक्षरता",
-                    registerBusiness: "व्यवसाय पंजीकृत करें",
-                    loginTitle: "JobGati में लॉगिन करें",
-                    email: "ईमेल",
-                    password: "पासवर्ड",
-                    rememberMe: "मुझे याद रखें",
-                    noAccount: "खाता नहीं है?",
-                    signUp: "साइन अप करें"
-                }
-            }
+        const handleLogin = async () => {
+          const res = await fetch(`${API_URL}/api/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await res.json();
+
+          if (!data.success) {
+            setError(data.message);
+            return;
+          }
+
+          // Store logged-in data
+          localStorage.setItem("jobgati_token", data.token);
+          localStorage.setItem("jobgati_user", JSON.stringify(data.user));
+
+          alert("Login successful!");
+
+          // Go to dashboard
+          setActivePage("dashboard");
         };
 
-        // Interactive Sections Components
-        function SkillAnalysis({ language, onAnalyze }) {
-            const t = content[language].interactive.skillAnalysis;
-            const [analysisResult, setAnalysisResult] = useState(null);
-            
-            const handleAnalyze = () => {
-                // Simulate API call to analyze skills
-                setTimeout(() => {
-                    setAnalysisResult({
-                        requiredSkills: ["Welding L3", "Solar Installation L2", "Digital Literacy L2", "Safety Protocols"],
-                        userSkills: ["Welding L2", "Digital Literacy L1", "Solar Panel Installation L1"]
-                    });
-                    if (onAnalyze) onAnalyze();
-                }, 1500);
-            };
-            
-            return (
-                <div className="interactive-section">
-                    <div className="section-container">
-                        <div className="section-header">
-                            <h2>{t.title}</h2>
-                            <p>{t.description}</p>
-                        </div>
-                        <div className="analysis-container">
-                            <button className="btn btn-primary" onClick={handleAnalyze}>
-                                {t.analyzeBtn}
+        return (
+          <div className="container mt-5">
+            <h2>Login</h2>
+
+            {error && <div className="alert alert-danger">{error}</div>}
+
+            <div className="mb-3">
+              <label>Email:</label>
+              <input
+                className="form-control"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label>Password:</label>
+              <input
+                className="form-control"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <button className="btn btn-success" onClick={handleLogin}>
+              Login
+            </button>
+          </div>
+        );
+      };
+
+      // Language content
+      const content = {
+        en: {
+          nav: {
+            home: "Home",
+            forJobSeekers: "For Job Seekers",
+            forBusinesses: "For Businesses",
+            about: "About",
+            contact: "Contact",
+          },
+          hero: {
+            title:
+              "Close Your <span>Skill Gap</span>. Unlock Local Opportunities.",
+            description:
+              "Connecting local talent with businesses by identifying and bridging skill gaps.",
+            jobSeekerBtn: "I am a Job Seeker",
+            businessBtn: "I am a Business",
+          },
+          features: {
+            title: "How <span>JobGati</span> Works",
+            step1: "Skill Analysis",
+            step2: "Gap Identification",
+            step3: "Training Bridge",
+            step4: "Job Matching",
+          },
+          interactive: {
+            skillAnalysis: {
+              title: "AI Skill Analysis",
+              description:
+                "Our AI analyzes required skills for local jobs and compares them with your profile",
+              analyzeBtn: "Analyze My Skills",
+              resultTitle: "Skill Analysis Results",
+              requiredSkills: "Required Skills for Local Jobs",
+              yourSkills: "Your Current Skills",
+            },
+            gapIdentification: {
+              title: "Skill Gap Identification",
+              description:
+                "Identify specific skill gaps and generate your Skill Gap Score",
+              identifyBtn: "Identify Skill Gaps",
+              resultTitle: "Skill Gap Analysis",
+              gapScore: "Your Skill Gap Score",
+              missingSkills: "Skills You Need to Develop",
+            },
+            trainingBridge: {
+              title: "Training Bridge",
+              description:
+                "Get personalized training suggestions to close your skill gaps",
+              findTrainingBtn: "Find Training",
+              resultTitle: "Recommended Training",
+              microCourses: "Micro-Courses",
+              trainingCenters: "Nearby Training Centers",
+            },
+            jobMatching: {
+              title: "Job Matching",
+              description:
+                "Find local job opportunities that match your skills",
+              findJobsBtn: "Find Jobs",
+              resultTitle: "Job Matches",
+              matchScore: "Match Score",
+            },
+          },
+          dashboard: {
+            welcome: "Hello, Abhishek Jaiswal!",
+            profile: {
+              name: "Abhishek Jaiswal",
+              title: "ITI Diploma Holder",
+            },
+            skillGap: "Skill Gap Heatmap",
+            progress: "Progress",
+            ready: "You are 80% ready for Solar Technician role.",
+            unlocked: "Job Unlocked!",
+            askAI: "Ask Karma AI",
+            aiDesc: "Your personalized assistant.",
+            topMatches: "Top Matches",
+            match1: {
+              percent: "70%",
+              title: "Solar Technician job at XYZ Industry.",
+              desc: "Requires L3 Welding, L2 Solar Install.",
+            },
+            match2: {
+              percent: "85%",
+              title: "Lathe Machine Operator at Precision Tools.",
+              desc: "Requires L3 Lathe Operation.",
+            },
+            closeGap: "Close Gap (Suggest Training)",
+            viewDetails: "View Details",
+            applyNow: "Apply Now",
+          },
+          forms: {
+            join: "Join JobGati",
+            fullName: "Full Name",
+            age: "Age",
+            education: "Highest Education Level",
+            educationOptions: [
+              "Primary School",
+              "High School / 10th",
+              "ITI / Diploma",
+              "Graduate / Degree",
+            ],
+            skills: "Skills (Type and Select)",
+            skillsPlaceholder: "e.g., Welding, Digital Literacy",
+            certifications: "Certifications (Upload)",
+            uploadText: "Upload Certificates (PDF, JPEG)",
+            maxSize: "Max 5MB file size",
+            accessibility: "Accessibility Feature",
+            voiceInput: "Voice Input (helpful for rural users)",
+            register: "Register",
+            login: "Login",
+            forgotPassword: "Forgot Password?",
+            businessReg: "Register Your Business",
+            businessName: "Business Name",
+            industry: "Industry",
+            industryOptions: [
+              "Manufacturing",
+              "Construction",
+              "Retail",
+              "Services",
+              "Technology",
+              "Other",
+            ],
+            location: "Location",
+            contactPerson: "Contact Person",
+            jobPositions: "Job Positions Needed",
+            jobPositionsPlaceholder: "List the positions you need to fill...",
+            requiredSkills: "Required Skills",
+            requiredSkillsPlaceholder: "e.g., Welding, Digital Literacy",
+            registerBusiness: "Register Business",
+            loginTitle: "Login to JobGati",
+            email: "Email",
+            password: "Password",
+            rememberMe: "Remember me",
+            noAccount: "Don't have an account?",
+            signUp: "Sign up",
+          },
+        },
+        hi: {
+          nav: {
+            home: "होम",
+            forJobSeekers: "नौकरी चाहने वालों के लिए",
+            forBusinesses: "व्यवसायों के लिए",
+            about: "हमारे बारे में",
+            contact: "संपर्क करें",
+          },
+          hero: {
+            title:
+              "अपने <span>स्किल गैप</span> को बंद करें। स्थानीय अवसरों को अनलॉक करें।",
+            description:
+              "स्थानीय प्रतिभा को व्यवसायों से जोड़कर कौशल अंतराल की पहचान करना और उन्हें पाटना।",
+            jobSeekerBtn: "मैं एक नौकरी चाहने वाला हूं",
+            businessBtn: "मैं एक व्यवसाय हूं",
+          },
+          features: {
+            title: "<span>JobGati</span> कैसे काम करता है",
+            step1: "कौशल विश्लेषण",
+            step2: "अंतराल पहचान",
+            step3: "प्रशिक्षण पुल",
+            step4: "नौकरी मिलान",
+          },
+          interactive: {
+            skillAnalysis: {
+              title: "AI कौशल विश्लेषण",
+              description:
+                "हमारी AI स्थानीय नौकरियों के लिए आवश्यक कौशल का विश्लेषण करती है और उनकी तुलना आपकी प्रोफाइल से करती है",
+              analyzeBtn: "मेरे कौशल का विश्लेषण करें",
+              resultTitle: "कौशल विश्लेषण परिणाम",
+              requiredSkills: "स्थानीय नौकरियों के लिए आवश्यक कौशल",
+              yourSkills: "आपके वर्तमान कौशल",
+            },
+            gapIdentification: {
+              title: "कौशल अंतराल पहचान",
+              description:
+                "विशिष्ट कौशल अंतराल की पहचान करें और अपना स्किल गैप स्कोर जनरेट करें",
+              identifyBtn: "कौशल अंतराल पहचानें",
+              resultTitle: "कौशल अंतराल विश्लेषण",
+              gapScore: "आपका स्किल गैप स्कोर",
+              missingSkills: "विकसित करने के लिए आवश्यक कौशल",
+            },
+            trainingBridge: {
+              title: "प्रशिक्षण पुल",
+              description:
+                "अपने कौशल अंतराल को पाटने के लिए व्यक्तिगत प्रशिक्षण सुझाव प्राप्त करें",
+              findTrainingBtn: "प्रशिक्षण ढूंढें",
+              resultTitle: "अनुशंसित प्रशिक्षण",
+              microCourses: "माइक्रो-कोर्स",
+              trainingCenters: "नजदीकी प्रशिक्षण केंद्र",
+            },
+            jobMatching: {
+              title: "नौकरी मिलान",
+              description:
+                "आपके कौशल से मेल खाने वाली स्थानीय नौकरी के अवसर ढूंढें",
+              findJobsBtn: "नौकरियां ढूंढें",
+              resultTitle: "नौकरी मैच",
+              matchScore: "मैच स्कोर",
+            },
+          },
+          dashboard: {
+            welcome: "नमस्ते, अभिषेक जायसवाल!",
+            profile: {
+              name: "अभिषेक जायसवाल",
+              title: "आईटीआई डिप्लोमा धारक",
+            },
+            skillGap: "स्किल गैप हीटमैप",
+            progress: "प्रगति",
+            ready: "आप सोलर टेक्निशियन की भूमिका के लिए 80% तैयार हैं।",
+            unlocked: "नौकरी अनलॉक!",
+            askAI: "कर्मा AI से पूछें",
+            aiDesc: "आपका व्यक्तिगत सहायक।",
+            topMatches: "शीर्ष मैच",
+            match1: {
+              percent: "70%",
+              title: "XYZ इंडस्ट्री में सोलर टेक्निशियन की नौकरी।",
+              desc: "L3 वेल्डिंग, L2 सोलर इंस्टॉल की आवश्यकता है।",
+            },
+            match2: {
+              percent: "85%",
+              title: "प्रिसिजन टूल्स में लेथ मशीन ऑपरेटर।",
+              desc: "L3 लेथ ऑपरेशन की आवश्यकता है।",
+            },
+            closeGap: "गैप बंद करें (प्रशिक्षण सुझाव)",
+            viewDetails: "विवरण देखें",
+            applyNow: "अभी आवेदन करें",
+          },
+          forms: {
+            join: "JobGati से जुड़ें",
+            fullName: "पूरा नाम",
+            age: "उम्र",
+            education: "उच्चतम शिक्षा स्तर",
+            educationOptions: [
+              "प्राथमिक विद्यालय",
+              "हाई स्कूल / 10वीं",
+              "आईटीआई / डिप्लोमा",
+              "स्नातक / डिग्री",
+            ],
+            skills: "कौशल (टाइप करें और चुनें)",
+            skillsPlaceholder: "उदाहरण: वेल्डिंग, डिजिटल साक्षरता",
+            certifications: "प्रमाणपत्र (अपलोड करें)",
+            uploadText: "प्रमाणपत्र अपलोड करें (PDF, JPEG)",
+            maxSize: "अधिकतम 5MB फाइल साइज",
+            accessibility: "एक्सेसिबिलिटी फीचर",
+            voiceInput: "वॉइस इनपुट (ग्रामीण उपयोगकर्ताओं के लिए सहायक)",
+            register: "रजिस्टर करें",
+            login: "लॉगिन",
+            forgotPassword: "पासवर्ड भूल गए?",
+            businessReg: "अपने व्यवसाय को पंजीकृत करें",
+            businessName: "व्यवसाय का नाम",
+            industry: "उद्योग",
+            industryOptions: [
+              "विनिर्माण",
+              "निर्माण",
+              "खुदरा",
+              "सेवाएं",
+              "प्रौद्योगिकी",
+              "अन्य",
+            ],
+            location: "स्थान",
+            contactPerson: "संपर्क व्यक्ति",
+            jobPositions: "आवश्यक नौकरी के पद",
+            jobPositionsPlaceholder: "भरने के लिए आवश्यक पदों की सूची बनाएं...",
+            requiredSkills: "आवश्यक कौशल",
+            requiredSkillsPlaceholder: "उदाहरण: वेल्डिंग, डिजिटल साक्षरता",
+            registerBusiness: "व्यवसाय पंजीकृत करें",
+            loginTitle: "JobGati में लॉगिन करें",
+            email: "ईमेल",
+            password: "पासवर्ड",
+            rememberMe: "मुझे याद रखें",
+            noAccount: "खाता नहीं है?",
+            signUp: "साइन अप करें",
+          },
+        },
+      };
+
+      // Interactive Sections Components
+      function SkillAnalysis({ language, onAnalyze }) {
+        const t = content[language].interactive.skillAnalysis;
+        const [analysisResult, setAnalysisResult] = useState(null);
+
+        const handleAnalyze = async () => {
+          const res = await fetch(
+            "http://localhost:4000/api/ai/skill-analysis",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ skills: userSkills }),
+            }
+          );
+
+          const data = await res.json();
+          setAnalysisResult(data);
+        };
+
+        return (
+          <div className="interactive-section">
+            <div className="section-container">
+              <div className="section-header">
+                <h2>{t.title}</h2>
+                <p>{t.description}</p>
+              </div>
+              <div className="analysis-container">
+                <button className="btn btn-primary" onClick={handleAnalyze}>
+                  {t.analyzeBtn}
+                </button>
+
+                {analysisResult && (
+                  <div className="analysis-result">
+                    <h3>{t.resultTitle}</h3>
+
+                    <div>
+                      <h4>{t.requiredSkills}</h4>
+                      <div className="skill-list">
+                        {analysisResult.requiredSkills.map((skill, index) => (
+                          <div key={index} className="skill-item">
+                            {skill}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4>{t.yourSkills}</h4>
+                      <div className="skill-list">
+                        {analysisResult.userSkills.map((skill, index) => (
+                          <div key={index} className="skill-item">
+                            {skill}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      function GapIdentification({ language, onIdentify }) {
+        const t = content[language].interactive.gapIdentification;
+        const [gapResult, setGapResult] = useState(null);
+
+        const handleIdentify = async () => {
+          const res = await fetch("http://localhost:4000/api/ai/gap-identify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ skills: userSkills }),
+          });
+
+          const data = await res.json();
+          setGapResult(data);
+        };
+
+        return (
+          <div className="interactive-section">
+            <div className="section-container">
+              <div className="section-header">
+                <h2>{t.title}</h2>
+                <p>{t.description}</p>
+              </div>
+              <div className="analysis-container">
+                <button className="btn btn-primary" onClick={handleIdentify}>
+                  {t.identifyBtn}
+                </button>
+                `
+                {gapResult && (
+                  <div className="analysis-result">
+                    <h3>{t.resultTitle}</h3>
+
+                    <div className="gap-score">
+                      <div className="score-circle">
+                        <div className="score-text">{gapResult.score}%</div>
+                      </div>
+                      <h4>{t.gapScore}</h4>
+                    </div>
+
+                    <div>
+                      <h4>{t.missingSkills}</h4>
+                      <div className="skill-list">
+                        {gapResult.missingSkills.map((skill, index) => (
+                          <div key={index} className="skill-item missing">
+                            {skill}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      function TrainingBridge({ language, onFindTraining }) {
+        const t = content[language].interactive.trainingBridge;
+        const [trainingResult, setTrainingResult] = useState(null);
+
+        const handleFindTraining = () => {
+          // Simulate API call to find training
+          setTimeout(() => {
+            setTrainingResult({
+              microCourses: [
+                {
+                  name: "Advanced Welding Techniques",
+                  provider: "SkillIndia",
+                  duration: "4 weeks",
+                  format: "Online",
+                },
+                {
+                  name: "Digital Literacy for Workers",
+                  provider: "NPTEL",
+                  duration: "6 weeks",
+                  format: "Online",
+                },
+                {
+                  name: "Solar Panel Installation",
+                  provider: "NSDC",
+                  duration: "8 weeks",
+                  format: "Blended",
+                },
+              ],
+              trainingCenters: [
+                {
+                  name: "ITI Center Delhi",
+                  distance: "2.5 km",
+                  courses: ["Welding L3", "Solar Installation"],
+                },
+                {
+                  name: "Skill Development Hub",
+                  distance: "5 km",
+                  courses: ["Digital Literacy", "Safety Training"],
+                },
+                {
+                  name: "Vocational Training Institute",
+                  distance: "7 km",
+                  courses: ["Welding L3", "Electrical Safety"],
+                },
+              ],
+            });
+            if (onFindTraining) onFindTraining();
+          }, 1500);
+        };
+
+        return (
+          <div className="interactive-section">
+            <div className="section-container">
+              <div className="section-header">
+                <h2>{t.title}</h2>
+                <p>{t.description}</p>
+              </div>
+              <div className="analysis-container">
+                <button
+                  className="btn btn-primary"
+                  onClick={handleFindTraining}
+                >
+                  {t.findTrainingBtn}
+                </button>
+
+                {trainingResult && (
+                  <div className="analysis-result">
+                    <h3>{t.resultTitle}</h3>
+
+                    <div>
+                      <h4>{t.microCourses}</h4>
+                      <div className="training-options">
+                        {trainingResult.microCourses.map((course, index) => (
+                          <div key={index} className="training-option">
+                            <h4>{course.name}</h4>
+                            <p>
+                              <strong>Provider:</strong> {course.provider}
+                            </p>
+                            <p>
+                              <strong>Duration:</strong> {course.duration}
+                            </p>
+                            <p>
+                              <strong>Format:</strong> {course.format}
+                            </p>
+                            <button
+                              className="btn btn-outline"
+                              style={{ marginTop: "10px" }}
+                            >
+                              Enroll
                             </button>
-                            
-                            {analysisResult && (
-                                <div className="analysis-result">
-                                    <h3>{t.resultTitle}</h3>
-                                    
-                                    <div>
-                                        <h4>{t.requiredSkills}</h4>
-                                        <div className="skill-list">
-                                            {analysisResult.requiredSkills.map((skill, index) => (
-                                                <div key={index} className="skill-item">{skill}</div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    
-                                    <div>
-                                        <h4>{t.yourSkills}</h4>
-                                        <div className="skill-list">
-                                            {analysisResult.userSkills.map((skill, index) => (
-                                                <div key={index} className="skill-item">{skill}</div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                </div>
-            );
-        }
-        
-        function GapIdentification({ language, onIdentify }) {
-            const t = content[language].interactive.gapIdentification;
-            const [gapResult, setGapResult] = useState(null);
-            
-            const handleIdentify = () => {
-                // Simulate API call to identify gaps
-                setTimeout(() => {
-                    setGapResult({
-                        score: 65,
-                        missingSkills: ["Welding L3", "Digital Literacy L2", "Safety Protocols"]
-                    });
-                    if (onIdentify) onIdentify();
-                }, 1500);
-            };
-            
-            return (
-                <div className="interactive-section">
-                    <div className="section-container">
-                        <div className="section-header">
-                            <h2>{t.title}</h2>
-                            <p>{t.description}</p>
-                        </div>
-                        <div className="analysis-container">
-                            <button className="btn btn-primary" onClick={handleIdentify}>
-                                {t.identifyBtn}
-                            </button>`
-                            
-                            {gapResult && (
-                                <div className="analysis-result">
-                                    <h3>{t.resultTitle}</h3>
-                                    
-                                    <div className="gap-score">
-                                        <div className="score-circle">
-                                            <div className="score-text">{gapResult.score}%</div>
-                                        </div>
-                                        <h4>{t.gapScore}</h4>
-                                    </div>
-                                    
-                                    <div>
-                                        <h4>{t.missingSkills}</h4>
-                                        <div className="skill-list">
-                                            {gapResult.missingSkills.map((skill, index) => (
-                                                <div key={index} className="skill-item missing">{skill}</div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        
-        function TrainingBridge({ language, onFindTraining }) {
-            const t = content[language].interactive.trainingBridge;
-            const [trainingResult, setTrainingResult] = useState(null);
-            
-            const handleFindTraining = () => {
-                // Simulate API call to find training
-                setTimeout(() => {
-                    setTrainingResult({
-                        microCourses: [
-                            { name: "Advanced Welding Techniques", provider: "SkillIndia", duration: "4 weeks", format: "Online" },
-                            { name: "Digital Literacy for Workers", provider: "NPTEL", duration: "6 weeks", format: "Online" },
-                            { name: "Solar Panel Installation", provider: "NSDC", duration: "8 weeks", format: "Blended" }
-                        ],
-                        trainingCenters: [
-                            { name: "ITI Center Delhi", distance: "2.5 km", courses: ["Welding L3", "Solar Installation"] },
-                            { name: "Skill Development Hub", distance: "5 km", courses: ["Digital Literacy", "Safety Training"] },
-                            { name: "Vocational Training Institute", distance: "7 km", courses: ["Welding L3", "Electrical Safety"] }
-                        ]
-                    });
-                    if (onFindTraining) onFindTraining();
-                }, 1500);
-            };
-            
-            return (
-                <div className="interactive-section">
-                    <div className="section-container">
-                        <div className="section-header">
-                            <h2>{t.title}</h2>
-                            <p>{t.description}</p>
-                        </div>
-                        <div className="analysis-container">
-                            <button className="btn btn-primary" onClick={handleFindTraining}>
-                                {t.findTrainingBtn}
+
+                    <div style={{ marginTop: "30px" }}>
+                      <h4>{t.trainingCenters}</h4>
+                      <div className="training-options">
+                        {trainingResult.trainingCenters.map((center, index) => (
+                          <div key={index} className="training-option">
+                            <h4>{center.name}</h4>
+                            <p>
+                              <strong>Distance:</strong> {center.distance}
+                            </p>
+                            <p>
+                              <strong>Courses:</strong>{" "}
+                              {center.courses.join(", ")}
+                            </p>
+                            <button
+                              className="btn btn-outline"
+                              style={{ marginTop: "10px" }}
+                            >
+                              View Details
                             </button>
-                            
-                            {trainingResult && (
-                                <div className="analysis-result">
-                                    <h3>{t.resultTitle}</h3>
-                                    
-                                    <div>
-                                        <h4>{t.microCourses}</h4>
-                                        <div className="training-options">
-                                            {trainingResult.microCourses.map((course, index) => (
-                                                <div key={index} className="training-option">
-                                                    <h4>{course.name}</h4>
-                                                    <p><strong>Provider:</strong> {course.provider}</p>
-                                                    <p><strong>Duration:</strong> {course.duration}</p>
-                                                    <p><strong>Format:</strong> {course.format}</p>
-                                                    <button className="btn btn-outline" style={{marginTop: '10px'}}>Enroll</button>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    
-                                    <div style={{marginTop: '30px'}}>
-                                        <h4>{t.trainingCenters}</h4>
-                                        <div className="training-options">
-                                            {trainingResult.trainingCenters.map((center, index) => (
-                                                <div key={index} className="training-option">
-                                                    <h4>{center.name}</h4>
-                                                    <p><strong>Distance:</strong> {center.distance}</p>
-                                                    <p><strong>Courses:</strong> {center.courses.join(", ")}</p>
-                                                    <button className="btn btn-outline" style={{marginTop: '10px'}}>View Details</button>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                </div>
-            );
-        }
-        
-        function JobMatching({ language, onFindJobs }) {
-            const t = content[language].interactive.jobMatching;
-            const [jobsResult, setJobsResult] = useState(null);
-            
-            const handleFindJobs = () => {
-                // Simulate API call to find jobs
-                setTimeout(() => {
-                    setJobsResult({
-                        jobs: [
-                            { title: "Solar Technician", company: "XYZ Industries", location: "Delhi", match: 70, skills: ["Welding L3", "Solar Installation L2"] },
-                            { title: "Lathe Machine Operator", company: "Precision Tools", location: "Gurgaon", match: 85, skills: ["Lathe Operation L3"] },
-                            { title: "Electrical Technician", company: "Power Solutions Ltd", location: "Noida", match: 60, skills: ["Electrical Wiring", "Safety Protocols"] }
-                        ]
-                    });
-                    if (onFindJobs) onFindJobs();
-                }, 1500);
-            };
-            
-            return (
-                <div className="interactive-section">
-                    <div className="section-container">
-                        <div className="section-header">
-                            <h2>{t.title}</h2>
-                            <p>{t.description}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      function JobMatching({ language, onFindJobs }) {
+        const t = content[language].interactive.jobMatching;
+        const [jobsResult, setJobsResult] = useState(null);
+
+        const handleFindJobs = async () => {
+          const res = await fetch("http://localhost:4000/api/ai/job-match", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ skills: userSkills }),
+          });
+
+          const data = await res.json();
+          setJobsResult(data);
+        };
+
+        return (
+          <div className="interactive-section">
+            <div className="section-container">
+              <div className="section-header">
+                <h2>{t.title}</h2>
+                <p>{t.description}</p>
+              </div>
+              <div className="analysis-container">
+                <button className="btn btn-primary" onClick={handleFindJobs}>
+                  {t.findJobsBtn}
+                </button>
+
+                {jobsResult && (
+                  <div className="analysis-result">
+                    <h3>{t.resultTitle}</h3>
+
+                    <div className="job-matches">
+                      {jobsResult.jobs.map((job, index) => (
+                        <div key={index} className="job-match">
+                          <div className="match-percentage">{job.match}%</div>
+                          <h4>{job.title}</h4>
+                          <p>
+                            <strong>Company:</strong> {job.company}
+                          </p>
+                          <p>
+                            <strong>Location:</strong> {job.location}
+                          </p>
+                          <p>
+                            <strong>Required Skills:</strong>{" "}
+                            {job.skills.join(", ")}
+                          </p>
+                          <button
+                            className="btn btn-primary"
+                            style={{ marginTop: "10px" }}
+                          >
+                            Apply Now
+                          </button>
                         </div>
-                        <div className="analysis-container">
-                            <button className="btn btn-primary" onClick={handleFindJobs}>
-                                {t.findJobsBtn}
-                            </button>
-                            
-                            {jobsResult && (
-                                <div className="analysis-result">
-                                    <h3>{t.resultTitle}</h3>
-                                    
-                                    <div className="job-matches">
-                                        {jobsResult.jobs.map((job, index) => (
-                                            <div key={index} className="job-match">
-                                                <div className="match-percentage">{job.match}%</div>
-                                                <h4>{job.title}</h4>
-                                                <p><strong>Company:</strong> {job.company}</p>
-                                                <p><strong>Location:</strong> {job.location}</p>
-                                                <p><strong>Required Skills:</strong> {job.skills.join(", ")}</p>
-                                                <button className="btn btn-primary" style={{marginTop: '10px'}}>Apply Now</button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                      ))}
                     </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // Login Modal Component
+      function LoginModal({ language, onClose, onLogin }) {
+        const t = content[language].forms;
+        const [email, setEmail] = useState("");
+        const [password, setPassword] = useState("");
+
+        const handleLogin = (e) => {
+          e.preventDefault();
+          // Simulate login process
+          if (email && password) {
+            if (onLogin) onLogin();
+          }
+        };
+
+        return (
+          <div className="modal-overlay">
+            <div className="modal">
+              <div className="modal-header">
+                <h2 className="modal-title">{t.loginTitle}</h2>
+                <button className="close-btn" onClick={onClose}>
+                  ×
+                </button>
+              </div>
+              <form className="login-form" onSubmit={handleLogin}>
+                <div className="form-group">
+                  <label htmlFor="email">{t.email}</label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
                 </div>
-            );
-        }
-        
-        // Login Modal Component
-        function LoginModal({ language, onClose, onLogin }) {
-            const t = content[language].forms;
-            const [email, setEmail] = useState("");
-            const [password, setPassword] = useState("");
-            
-            const handleLogin = (e) => {
-                e.preventDefault();
-                // Simulate login process
-                if (email && password) {
-                    if (onLogin) onLogin();
-                }
-            };
-            
-            return (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <div className="modal-header">
-                            <h2 className="modal-title">{t.loginTitle}</h2>
-                            <button className="close-btn" onClick={onClose}>×</button>
-                        </div>
-                        <form className="login-form" onSubmit={handleLogin}>
-                            <div className="form-group">
-                                <label htmlFor="email">{t.email}</label>
-                                <input 
-                                    type="email" 
-                                    id="email" 
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required 
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="password">{t.password}</label>
-                                <input 
-                                    type="password" 
-                                    id="password" 
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required 
-                                />
-                            </div>
-                            <div className="form-group" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                                <div>
-                                    <input type="checkbox" id="remember" />
-                                    <label htmlFor="remember" style={{marginLeft: '8px'}}>{t.rememberMe}</label>
-                                </div>
-                                <a href="#">{t.forgotPassword}</a>
-                            </div>
-                            <button type="submit" className="btn btn-primary" style={{width: '100%'}}>
-                                {t.login}
-                            </button>
-                            <div className="form-footer">
-                                <p>{t.noAccount} <a href="#" onClick={() => { onClose(); }}>{t.signUp}</a></p>
-                            </div>
-                        </form>
+                <div className="form-group">
+                  <label htmlFor="password">{t.password}</label>
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div
+                  className="form-group"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <input type="checkbox" id="remember" />
+                    <label htmlFor="remember" style={{ marginLeft: "8px" }}>
+                      {t.rememberMe}
+                    </label>
+                  </div>
+                  <a href="#">{t.forgotPassword}</a>
+                </div>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  style={{ width: "100%" }}
+                >
+                  {t.login}
+                </button>
+                <div className="form-footer">
+                  <p>
+                    {t.noAccount}{" "}
+                    <a
+                      href="#"
+                      onClick={() => {
+                        onClose();
+                      }}
+                    >
+                      {t.signUp}
+                    </a>
+                  </p>
+                </div>
+              </form>
+            </div>
+          </div>
+        );
+      }
+
+      // Main App Component
+      function App() {
+        const [language, setLanguage] = useState("en");
+        const [activePage, setActivePage] = useState("home");
+        const [activeSection, setActiveSection] = useState(null);
+        const [showLogin, setShowLogin] = useState(false);
+        const [isLoggedIn, setIsLoggedIn] = useState(false);
+        const [userSkills, setUserSkills] = useState([
+          "Welding L2",
+          "Digital Literacy L1",
+          "Solar Panel Installation L1",
+        ]);
+        const [newSkill, setNewSkill] = useState("");
+        const [requiredSkills, setRequiredSkills] = useState([
+          "Welding L3",
+          "Solar Installation L2",
+        ]);
+        const [newRequiredSkill, setNewRequiredSkill] = useState("");
+
+        const t = content[language];
+
+        const handleAddSkill = (e) => {
+          if (e.key === "Enter" && newSkill.trim()) {
+            setUserSkills([...userSkills, newSkill.trim()]);
+            setNewSkill("");
+          }
+        };
+
+        const handleRemoveSkill = (index) => {
+          const updatedSkills = [...userSkills];
+          updatedSkills.splice(index, 1);
+          setUserSkills(updatedSkills);
+        };
+
+        const handleAddRequiredSkill = (e) => {
+          if (e.key === "Enter" && newRequiredSkill.trim()) {
+            setRequiredSkills([...requiredSkills, newRequiredSkill.trim()]);
+            setNewRequiredSkill("");
+          }
+        };
+
+        const handleRemoveRequiredSkill = (index) => {
+          const updatedSkills = [...requiredSkills];
+          updatedSkills.splice(index, 1);
+          setRequiredSkills(updatedSkills);
+        };
+
+        const handleRegisterJobSeeker = async () => {
+          const name = document.getElementById("name").value;
+          const age = document.getElementById("age").value;
+          const education = document.getElementById("education").value;
+
+          const payload = {
+            name,
+            age,
+            education,
+            skills: userSkills,
+            certificates: [], // abhi blank, upload baad me karenge
+          };
+
+          const res = await fetch(`${API_URL}/api/jobseeker/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const data = await res.json();
+
+          if (data.success) {
+            alert("Registered successfully!");
+            setActivePage("dashboard");
+          } else {
+            alert("Error: " + data.message);
+          }
+        };
+
+        const handleLogin = () => {
+          setIsLoggedIn(true);
+          setShowLogin(false);
+          setActivePage("dashboard");
+        };
+
+        const handleRegisterBusiness = async () => {
+          const payload = {
+            name: document.getElementById("business-name").value,
+            industry: document.getElementById("industry").value,
+            location: document.getElementById("location").value,
+            contactPerson: document.getElementById("contact-person").value,
+            requiredSkills,
+          };
+
+          const res = await fetch(
+            `http://localhost:4000/api/business/register`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            }
+          );
+
+          const data = await res.json();
+
+          if (data.success) {
+            alert("Business registered!");
+          } else {
+            alert("Error: " + data.message);
+          }
+        };
+
+        const handleSectionClick = (section) => {
+          setActiveSection(section);
+          // Scroll to the section
+          setTimeout(() => {
+            document
+              .getElementById(section)
+              .scrollIntoView({ behavior: "smooth" });
+          }, 100);
+        };
+
+        return (
+          <div>
+            {/* Header */}
+            <header>
+              <div className="container">
+                <div className="navbar">
+                  <a
+                    href="#"
+                    className="logo"
+                    onClick={() => setActivePage("home")}
+                  >
+                    <div className="logo-icon">J</div>
+                    JobGati
+                  </a>
+                  <ul className="nav-links">
+                    <li>
+                      <a
+                        href="#"
+                        className={activePage === "home" ? "active" : ""}
+                        onClick={() => setActivePage("home")}
+                      >
+                        {t.nav.home}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className={
+                          activePage === "jobSeekerRegistration" ? "active" : ""
+                        }
+                        onClick={() => setActivePage("jobSeekerRegistration")}
+                      >
+                        {t.nav.forJobSeekers}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className={
+                          activePage === "businessRegistration" ? "active" : ""
+                        }
+                        onClick={() => setActivePage("businessRegistration")}
+                      >
+                        {t.nav.forBusinesses}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className={activePage === "about" ? "active" : ""}
+                        onClick={() => setActivePage("about")}
+                      >
+                        {t.nav.about}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className={activePage === "contact" ? "active" : ""}
+                        onClick={() => setActivePage("contact")}
+                      >
+                        {t.nav.contact}
+                      </a>
+                    </li>
+                  </ul>
+                  <div className="nav-actions">
+                    <div className="language-switcher">
+                      <button
+                        className={language === "en" ? "active" : ""}
+                        onClick={() => setLanguage("en")}
+                      >
+                        EN
+                      </button>
+                      <button
+                        className={language === "hi" ? "active" : ""}
+                        onClick={() => setLanguage("hi")}
+                      >
+                        हिंदी
+                      </button>
                     </div>
+                    {isLoggedIn ? (
+                      <button
+                        className="btn btn-outline"
+                        onClick={() => {
+                          setIsLoggedIn(false);
+                          setActivePage("home");
+                        }}
+                      >
+                        Logout
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-outline"
+                        onClick={() => setShowLogin(true)}
+                      >
+                        {t.forms.login}
+                      </button>
+                    )}
+                  </div>
                 </div>
-            );
-        }
+              </div>
+            </header>
 
-        // Main App Component
-        function App() {
-            const [language, setLanguage] = useState('en');
-            const [activePage, setActivePage] = useState('home');
-            const [activeSection, setActiveSection] = useState(null);
-            const [showLogin, setShowLogin] = useState(false);
-            const [isLoggedIn, setIsLoggedIn] = useState(false);
-            const [userSkills, setUserSkills] = useState(['Welding L2', 'Digital Literacy L1', 'Solar Panel Installation L1']);
-            const [newSkill, setNewSkill] = useState('');
-            const [requiredSkills, setRequiredSkills] = useState(['Welding L3', 'Solar Installation L2']);
-            const [newRequiredSkill, setNewRequiredSkill] = useState('');
-
-            const t = content[language];
-
-            const handleAddSkill = (e) => {
-                if (e.key === 'Enter' && newSkill.trim()) {
-                    setUserSkills([...userSkills, newSkill.trim()]);
-                    setNewSkill('');
-                }
-            };
-
-            const handleRemoveSkill = (index) => {
-                const updatedSkills = [...userSkills];
-                updatedSkills.splice(index, 1);
-                setUserSkills(updatedSkills);
-            };
-
-            const handleAddRequiredSkill = (e) => {
-                if (e.key === 'Enter' && newRequiredSkill.trim()) {
-                    setRequiredSkills([...requiredSkills, newRequiredSkill.trim()]);
-                    setNewRequiredSkill('');
-                }
-            };
-
-            const handleRemoveRequiredSkill = (index) => {
-                const updatedSkills = [...requiredSkills];
-                updatedSkills.splice(index, 1);
-                setRequiredSkills(updatedSkills);
-            };
-
-            const handleRegisterJobSeeker = () => {
-                setActivePage('dashboard');
-            };
-
-            const handleLogin = () => {
-                setIsLoggedIn(true);
-                setShowLogin(false);
-                setActivePage('dashboard');
-            };
-
-            const handleSectionClick = (section) => {
-                setActiveSection(section);
-                // Scroll to the section
-                setTimeout(() => {
-                    document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-            };
-
-            return (
-                <div>
-                    {/* Header */}
-                    <header>
-                        <div className="container">
-                            <div className="navbar">
-                                <a href="#" className="logo" onClick={() => setActivePage('home')}>
-                                    <div className="logo-icon">J</div>
-                                    JobGati
-                                </a>
-                                <ul className="nav-links">
-                                    <li><a 
-                                        href="#" 
-                                        className={activePage === 'home' ? 'active' : ''}
-                                        onClick={() => setActivePage('home')}
-                                    >{t.nav.home}</a></li>
-                                    <li><a 
-                                        href="#" 
-                                        className={activePage === 'jobSeekerRegistration' ? 'active' : ''}
-                                        onClick={() => setActivePage('jobSeekerRegistration')}
-                                    >{t.nav.forJobSeekers}</a></li>
-                                    <li><a 
-                                        href="#" 
-                                        className={activePage === 'businessRegistration' ? 'active' : ''}
-                                        onClick={() => setActivePage('businessRegistration')}
-                                    >{t.nav.forBusinesses}</a></li>
-                                    <li><a 
-                                        href="#" 
-                                        className={activePage === 'about' ? 'active' : ''}
-                                        onClick={() => setActivePage('about')}
-                                    >{t.nav.about}</a></li>
-                                    <li><a 
-                                        href="#" 
-                                        className={activePage === 'contact' ? 'active' : ''}
-                                        onClick={() => setActivePage('contact')}
-                                    >{t.nav.contact}</a></li>
-                                </ul>
-                                <div className="nav-actions">
-                                    <div className="language-switcher">
-                                        <button 
-                                            className={language === 'en' ? 'active' : ''}
-                                            onClick={() => setLanguage('en')}
-                                        >EN</button>
-                                        <button 
-                                            className={language === 'hi' ? 'active' : ''}
-                                            onClick={() => setLanguage('hi')}
-                                        >हिंदी</button>
-                                    </div>
-                                    {isLoggedIn ? (
-                                        <button 
-                                            className="btn btn-outline"
-                                            onClick={() => {
-                                                setIsLoggedIn(false);
-                                                setActivePage('home');
-                                            }}
-                                        >Logout</button>
-                                    ) : (
-                                        <button 
-                                            className="btn btn-outline"
-                                            onClick={() => setShowLogin(true)}
-                                        >{t.forms.login}</button>
-                                    )}
-                                </div>
-                            </div>
+            {/* Home Page */}
+            {activePage === "home" && (
+              <div>
+                {/* Hero Section */}
+                <section className="hero">
+                  <div className="container">
+                    <div className="hero-content">
+                      <div className="hero-text">
+                        <h1
+                          className="hero-title"
+                          dangerouslySetInnerHTML={{ __html: t.hero.title }}
+                        ></h1>
+                        <p className="hero-description">{t.hero.description}</p>
+                        <div className="hero-actions">
+                          <button
+                            className="btn btn-secondary"
+                            onClick={() =>
+                              setActivePage("jobSeekerRegistration")
+                            }
+                          >
+                            {t.hero.jobSeekerBtn}
+                          </button>
+                          <button
+                            className="btn btn-primary"
+                            onClick={() =>
+                              setActivePage("businessRegistration")
+                            }
+                          >
+                            {t.hero.businessBtn}
+                          </button>
                         </div>
-                    </header>
-
-                    {/* Home Page */}
-                    {activePage === 'home' && (
-                        <div>
-                            {/* Hero Section */}
-                            <section className="hero">
-                                <div className="container">
-                                    <div className="hero-content">
-                                        <div className="hero-text">
-                                            <h1 className="hero-title" dangerouslySetInnerHTML={{ __html: t.hero.title }}></h1>
-                                            <p className="hero-description">{t.hero.description}</p>
-                                            <div className="hero-actions">
-                                                <button 
-                                                    className="btn btn-secondary"
-                                                    onClick={() => setActivePage('jobSeekerRegistration')}
-                                                >{t.hero.jobSeekerBtn}</button>
-                                                <button 
-                                                    className="btn btn-primary"
-                                                    onClick={() => setActivePage('businessRegistration')}
-                                                >{t.hero.businessBtn}</button>
-                                            </div>
-                                        </div>
-                                        <div className="hero-visual">
-                                            <div className="process-flow">
-                                                <div className="process-step">
-                                                    <div 
-                                                        className="step-icon" 
-                                                        style={{color: '#3B82F6'}}
-                                                        onClick={() => handleSectionClick('skill-analysis')}
-                                                    >
-                                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14"></path>
-                                                        </svg>
-                                                    </div>
-                                                    <div className="step-text">{t.features.step1}</div>
-                                                </div>
-                                                <div className="step-arrow">→</div>
-                                                <div className="process-step">
-                                                    <div 
-                                                        className="step-icon" 
-                                                        style={{color: '#F97316'}}
-                                                        onClick={() => handleSectionClick('gap-identification')}
-                                                    >
-                                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                                                        </svg>
-                                                    </div>
-                                                    <div className="step-text">{t.features.step2}</div>
-                                                </div>
-                                                <div className="step-arrow">→</div>
-                                                <div className="process-step">
-                                                    <div 
-                                                        className="step-icon" 
-                                                        style={{color: '#10B981'}}
-                                                        onClick={() => handleSectionClick('training-bridge')}
-                                                    >
-                                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                                                        </svg>
-                                                    </div>
-                                                    <div className="step-text">{t.features.step3}</div>
-                                                </div>
-                                                <div className="step-arrow">→</div>
-                                                <div className="process-step">
-                                                    <div 
-                                                        className="step-icon" 
-                                                        style={{color: '#8B5CF6'}}
-                                                        onClick={() => handleSectionClick('job-matching')}
-                                                    >
-                                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6"></path>
-                                                        </svg>
-                                                    </div>
-                                                    <div className="step-text">{t.features.step4}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-
-                            {/* Interactive Sections */}
-                            <div id="skill-analysis">
-                                <SkillAnalysis 
-                                    language={language} 
-                                    onAnalyze={() => console.log("Skill analysis completed")}
-                                />
+                      </div>
+                      <div className="hero-visual">
+                        <div className="process-flow">
+                          <div className="process-step">
+                            <div
+                              className="step-icon"
+                              style={{ color: "#3B82F6" }}
+                              onClick={() =>
+                                handleSectionClick("skill-analysis")
+                              }
+                            >
+                              <svg
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14"
+                                ></path>
+                              </svg>
                             </div>
-                            
-                            <div id="gap-identification">
-                                <GapIdentification 
-                                    language={language} 
-                                    onIdentify={() => console.log("Gap identification completed")}
-                                />
+                            <div className="step-text">{t.features.step1}</div>
+                          </div>
+                          <div className="step-arrow">→</div>
+                          <div className="process-step">
+                            <div
+                              className="step-icon"
+                              style={{ color: "#F97316" }}
+                              onClick={() =>
+                                handleSectionClick("gap-identification")
+                              }
+                            >
+                              <svg
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                                ></path>
+                              </svg>
                             </div>
-                            
-                            <div id="training-bridge">
-                                <TrainingBridge 
-                                    language={language} 
-                                    onFindTraining={() => console.log("Training search completed")}
-                                />
+                            <div className="step-text">{t.features.step2}</div>
+                          </div>
+                          <div className="step-arrow">→</div>
+                          <div className="process-step">
+                            <div
+                              className="step-icon"
+                              style={{ color: "#10B981" }}
+                              onClick={() =>
+                                handleSectionClick("training-bridge")
+                              }
+                            >
+                              <svg
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                                ></path>
+                              </svg>
                             </div>
-                            
-                            <div id="job-matching">
-                                <JobMatching 
-                                    language={language} 
-                                    onFindJobs={() => console.log("Job search completed")}
-                                />
+                            <div className="step-text">{t.features.step3}</div>
+                          </div>
+                          <div className="step-arrow">→</div>
+                          <div className="process-step">
+                            <div
+                              className="step-icon"
+                              style={{ color: "#8B5CF6" }}
+                              onClick={() => handleSectionClick("job-matching")}
+                            >
+                              <svg
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6"
+                                ></path>
+                              </svg>
                             </div>
+                            <div className="step-text">{t.features.step4}</div>
+                          </div>
                         </div>
-                    )}
-
-                    {/* Job Seeker Registration Page */}
-                    {activePage === 'jobSeekerRegistration' && (
-                        <section className="section">
-                            <div className="container">
-                                <div className="form-container">
-                                    <h2 className="form-title">{t.forms.join}</h2>
-                                    <div className="form-grid">
-                                        <div>
-                                            <div className="form-group">
-                                                <label htmlFor="name">{t.forms.fullName}</label>
-                                                <input type="text" id="name" />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="age">{t.forms.age}</label>
-                                                <input type="number" id="age" />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="education">{t.forms.education}</label>
-                                                <select id="education">
-                                                    {t.forms.educationOptions.map(option => (
-                                                        <option key={option}>{option}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="skills">{t.forms.skills}</label>
-                                                <input 
-                                                    type="text" 
-                                                    id="skills" 
-                                                    placeholder={t.forms.skillsPlaceholder}
-                                                    value={newSkill}
-                                                    onChange={(e) => setNewSkill(e.target.value)}
-                                                    onKeyPress={handleAddSkill}
-                                                />
-                                                <div className="skills-list">
-                                                    {userSkills.map((skill, index) => (
-                                                        <span key={index} className="skill-tag">
-                                                            {skill} 
-                                                            <span 
-                                                                style={{marginLeft: '5px', cursor: 'pointer'}}
-                                                                onClick={() => handleRemoveSkill(index)}
-                                                            >×</span>
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                            <div className="form-group">
-                                                <button 
-                                                    className="btn btn-secondary"
-                                                    onClick={handleRegisterJobSeeker}
-                                                >{t.forms.register}</button>
-                                                <button className="btn btn-outline" style={{marginLeft: '10px'}}>{t.forms.login}</button>
-                                            </div>
-                                            <a href="#" className="forgot-password">{t.forms.forgotPassword}</a>
-                                        </div>
-                                        <div>
-                                            <div className="form-group">
-                                                <label>{t.forms.certifications}</label>
-                                                <div className="file-upload">
-                                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                                                    </svg>
-                                                    <div>
-                                                        <span>{t.forms.uploadText}</span>
-                                                        <input type="file" className="sr-only" multiple />
-                                                    </div>
-                                                    <p>{t.forms.maxSize}</p>
-                                                </div>
-                                            </div>
-                                            <div className="voice-input">
-                                                <p>{t.forms.accessibility}</p>
-                                                <div className="voice-btn">
-                                                    <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3.93-3.09 7.15-7.3 7.97V21h4v-2h-4v-1.03c-3.2-.82-5.7-3.67-5.7-6.97H3c0 4.84 3.96 8.5 8.99 9V21h-4v2h10v-2h-4v-1.01c4.99-.48 9-4.78 9-9.99h-2z"></path>
-                                                    </svg>
-                                                </div>
-                                                <p>{t.forms.voiceInput}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Business Registration Page */}
-                    {activePage === 'businessRegistration' && (
-                        <section className="section">
-                            <div className="container">
-                                <div className="form-container">
-                                    <h2 className="form-title">{t.forms.businessReg}</h2>
-                                    <div className="form-grid">
-                                        <div>
-                                            <div className="form-group">
-                                                <label htmlFor="business-name">{t.forms.businessName}</label>
-                                                <input type="text" id="business-name" />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="industry">{t.forms.industry}</label>
-                                                <select id="industry">
-                                                    {t.forms.industryOptions.map(option => (
-                                                        <option key={option}>{option}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="location">{t.forms.location}</label>
-                                                <input type="text" id="location" />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="contact-person">{t.forms.contactPerson}</label>
-                                                <input type="text" id="contact-person" />
-                                            </div>
-                                            <div className="form-group">
-                                                <button className="btn btn-primary">{t.forms.registerBusiness}</button>
-                                                <button className="btn btn-outline" style={{marginLeft: '10px'}}>{t.forms.login}</button>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div className="form-group full-width">
-                                                <label htmlFor="job-positions">{t.forms.jobPositions}</label>
-                                                <textarea 
-                                                    id="job-positions" 
-                                                    rows="4" 
-                                                    placeholder={t.forms.jobPositionsPlaceholder}
-                                                ></textarea>
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="required-skills">{t.forms.requiredSkills}</label>
-                                                <input 
-                                                    type="text" 
-                                                    id="required-skills" 
-                                                    placeholder={t.forms.requiredSkillsPlaceholder}
-                                                    value={newRequiredSkill}
-                                                    onChange={(e) => setNewRequiredSkill(e.target.value)}
-                                                    onKeyPress={handleAddRequiredSkill}
-                                                />
-                                                <div className="skills-list">
-                                                    {requiredSkills.map((skill, index) => (
-                                                        <span key={index} className="skill-tag">
-                                                            {skill} 
-                                                            <span 
-                                                                style={{marginLeft: '5px', cursor: 'pointer'}}
-                                                                onClick={() => handleRemoveRequiredSkill(index)}
-                                                            >×</span>
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Dashboard Page */}
-                    {activePage === 'dashboard' && isLoggedIn && (
-                        <section className="section">
-                            <div className="container">
-                                <h1 className="section-title" style={{textAlign: 'left'}}>{t.dashboard.welcome}</h1>
-                                <div className="dashboard">
-                                    <div className="profile-card">
-                                        <div className="profile-image">
-                                            AJ
-                                            <div className="verified-badge">✓</div>
-                                        </div>
-                                        <h3 className="profile-name">{t.dashboard.profile.name}</h3>
-                                        <p className="profile-title">{t.dashboard.profile.title}</p>
-                                        <div>
-                                            <h4>Current Skills:</h4>
-                                            <div className="skills-list">
-                                                <span className="skill-tag">Welding L2</span>
-                                                <span className="skill-tag">Digital Literacy L1</span>
-                                                <span className="skill-tag">Solar Panel Installation L1</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="dashboard-content">
-                                        <div className="dashboard-card">
-                                            <h3 className="card-title">{t.dashboard.skillGap}</h3>
-                                            <div className="skill-gap-chart">
-                                                Radar Chart: User Skills vs Required Job Role
-                                            </div>
-                                            <p style={{fontSize: '12px', color: '#6B7280', marginTop: '10px'}}>
-                                                Blue: Your Skills | Orange: Required for Solar Technician
-                                            </p>
-                                        </div>
-                                        <div style={{display: 'flex', flexDirection: 'column', gap: '30px'}}>
-                                            <div className="dashboard-card" style={{textAlign: 'center'}}>
-                                                <h3 className="card-title">{t.dashboard.progress}</h3>
-                                                <div className="progress-circle">
-                                                    <div className="progress-text">80%</div>
-                                                </div>
-                                                <p>{t.dashboard.ready}</p>
-                                                <div style={{color: '#F59E0B', fontWeight: '600', marginTop: '10px'}}>
-                                                    <span role="img" aria-label="shield">🛡️</span> {t.dashboard.unlocked}
-                                                </div>
-                                            </div>
-                                            <div className="dashboard-card" style={{textAlign: 'center'}}>
-                                                <svg style={{width: '48px', height: '48px', color: '#3B82F6', margin: '0 auto 10px'}} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.43 12.56 13 13.01 13 14h-2c0-.56.44-1.01 1-1.46l.9-.92C13.79 11.23 14 10.79 14 10c0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .79-.21 1.54-.63 2.19z"></path>
-                                                </svg>
-                                                <p style={{fontWeight: '600'}}>{t.dashboard.askAI}</p>
-                                                <p style={{fontSize: '14px', color: '#6B7280'}}>{t.dashboard.aiDesc}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="dashboard-card" style={{marginTop: '30px'}}>
-                                    <h3 className="card-title">{t.dashboard.topMatches}</h3>
-                                    <div className="job-match-dashboard">
-                                        <div style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
-                                            <div className="match-percentage-dashboard">{t.dashboard.match1.percent}</div>
-                                            <div className="job-details">
-                                                <h4>{t.dashboard.match1.title}</h4>
-                                                <p>{t.dashboard.match1.desc}</p>
-                                            </div>
-                                        </div>
-                                        <div style={{display: 'flex', gap: '10px'}}>
-                                            <button className="btn btn-secondary">{t.dashboard.closeGap}</button>
-                                            <button className="btn btn-outline">{t.dashboard.viewDetails}</button>
-                                        </div>
-                                    </div>
-                                    <div className="job-match-dashboard">
-                                        <div style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
-                                            <div className="match-percentage-dashboard" style={{color: '#F59E0B'}}>{t.dashboard.match2.percent}</div>
-                                            <div className="job-details">
-                                                <h4>{t.dashboard.match2.title}</h4>
-                                                <p>{t.dashboard.match2.desc}</p>
-                                            </div>
-                                        </div>
-                                        <button className="btn btn-primary">{t.dashboard.applyNow}</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Footer */}
-                    <footer>
-                        <div className="container">
-                            <div className="footer-content">
-                                <div className="footer-column">
-                                    <h3>JobGati</h3>
-                                    <p>AI-Powered Hyperlocal Skill-to-Job Match Platform</p>
-                                </div>
-                                <div className="footer-column">
-                                    <h3>Quick Links</h3>
-                                    <ul className="footer-links">
-                                        <li><a href="#" onClick={() => setActivePage('home')}>Home</a></li>
-                                        <li><a href="#" onClick={() => setActivePage('jobSeekerRegistration')}>For Job Seekers</a></li>
-                                        <li><a href="#" onClick={() => setActivePage('businessRegistration')}>For Businesses</a></li>
-                                        <li><a href="#" onClick={() => setActivePage('about')}>About Us</a></li>
-                                        <li><a href="#" onClick={() => setActivePage('contact')}>Contact</a></li>
-                                    </ul>
-                                </div>
-                                <div className="footer-column">
-                                    <h3>Contact Us</h3>
-                                    <ul className="footer-links">
-                                        <li>Email: info@jobgati.com</li>
-                                        <li>Phone: +91 9876543210</li>
-                                        <li>Address: Skill Development Center, New Delhi, India</li>
-                                    </ul>
-                                </div>
-                                <div className="footer-column">
-                                    <h3>Follow Us</h3>
-                                    <ul className="footer-links">
-                                        <li><a href="#">Facebook</a></li>
-                                        <li><a href="#">Twitter</a></li>
-                                        <li><a href="#">LinkedIn</a></li>
-                                        <li><a href="#">Instagram</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="footer-bottom">
-                                <p>&copy; 2025 JobGati. All rights reserved.</p>
-                            </div>
-                        </div>
-                    </footer>
-
-                    {/* Karma AI Button */}
-                    <div className="karma-ai">
-                        <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm4 11h8V13H8v2zm0-3h8V10H8v2z"></path>
-                        </svg>
+                      </div>
                     </div>
+                  </div>
+                </section>
 
-                    {/* Login Modal */}
-                    {showLogin && (
-                        <LoginModal 
-                            language={language}
-                            onClose={() => setShowLogin(false)}
-                            onLogin={handleLogin}
-                        />
-                    )}
+                {/* Interactive Sections */}
+                <div id="skill-analysis">
+                  <SkillAnalysis
+                    language={language}
+                    onAnalyze={() => console.log("Skill analysis completed")}
+                  />
                 </div>
-            );
-        }
 
-        // Render the App
-        ReactDOM.render(<App />, document.getElementById('root'));
+                <div id="gap-identification">
+                  <GapIdentification
+                    language={language}
+                    onIdentify={() =>
+                      console.log("Gap identification completed")
+                    }
+                  />
+                </div>
+
+                <div id="training-bridge">
+                  <TrainingBridge
+                    language={language}
+                    onFindTraining={() =>
+                      console.log("Training search completed")
+                    }
+                  />
+                </div>
+
+                <div id="job-matching">
+                  <JobMatching
+                    language={language}
+                    onFindJobs={() => console.log("Job search completed")}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Job Seeker Registration Page */}
+            {activePage === "jobSeekerRegistration" && (
+              <section className="section">
+                <div className="container">
+                  <div className="form-container">
+                    <h2 className="form-title">{t.forms.join}</h2>
+                    <div className="form-grid">
+                      <div>
+                        <div className="form-group">
+                          <label htmlFor="name">{t.forms.fullName}</label>
+                          <input type="text" id="name" />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="age">{t.forms.age}</label>
+                          <input type="number" id="age" />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="education">{t.forms.education}</label>
+                          <select id="education">
+                            {t.forms.educationOptions.map((option) => (
+                              <option key={option}>{option}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="skills">{t.forms.skills}</label>
+                          <input
+                            type="text"
+                            id="skills"
+                            placeholder={t.forms.skillsPlaceholder}
+                            value={newSkill}
+                            onChange={(e) => setNewSkill(e.target.value)}
+                            onKeyPress={handleAddSkill}
+                          />
+                          <div className="skills-list">
+                            {userSkills.map((skill, index) => (
+                              <span key={index} className="skill-tag">
+                                {skill}
+                                <span
+                                  style={{
+                                    marginLeft: "5px",
+                                    cursor: "pointer",
+                                  }}
+                                  onClick={() => handleRemoveSkill(index)}
+                                >
+                                  ×
+                                </span>
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="form-group">
+                          <button
+                            className="btn btn-secondary"
+                            onClick={handleRegisterJobSeeker}
+                          >
+                            {t.forms.register}
+                          </button>
+                          <button
+                            className="btn btn-outline"
+                            style={{ marginLeft: "10px" }}
+                          >
+                            {t.forms.login}
+                          </button>
+                        </div>
+                        <a href="#" className="forgot-password">
+                          {t.forms.forgotPassword}
+                        </a>
+                      </div>
+                      <div>
+                        <div className="form-group">
+                          <label>{t.forms.certifications}</label>
+                          <div className="file-upload">
+                            <svg
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                              ></path>
+                            </svg>
+                            <div>
+                              <span>{t.forms.uploadText}</span>
+                              <input type="file" className="sr-only" multiple />
+                            </div>
+                            <p>{t.forms.maxSize}</p>
+                          </div>
+                        </div>
+                        <div className="voice-input">
+                          <p>{t.forms.accessibility}</p>
+                          <div className="voice-btn">
+                            <svg
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3.93-3.09 7.15-7.3 7.97V21h4v-2h-4v-1.03c-3.2-.82-5.7-3.67-5.7-6.97H3c0 4.84 3.96 8.5 8.99 9V21h-4v2h10v-2h-4v-1.01c4.99-.48 9-4.78 9-9.99h-2z"></path>
+                            </svg>
+                          </div>
+                          <p>{t.forms.voiceInput}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {/* Business Registration Page */}
+            {activePage === "businessRegistration" && (
+              <section className="section">
+                <div className="container">
+                  <div className="form-container">
+                    <h2 className="form-title">{t.forms.businessReg}</h2>
+                    <div className="form-grid">
+                      <div>
+                        <div className="form-group">
+                          <label htmlFor="business-name">
+                            {t.forms.businessName}
+                          </label>
+                          <input type="text" id="business-name" />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="industry">{t.forms.industry}</label>
+                          <select id="industry">
+                            {t.forms.industryOptions.map((option) => (
+                              <option key={option}>{option}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="location">{t.forms.location}</label>
+                          <input type="text" id="location" />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="contact-person">
+                            {t.forms.contactPerson}
+                          </label>
+                          <input type="text" id="contact-person" />
+                        </div>
+                        <div className="form-group">
+                          <button
+                            className="btn btn-primary"
+                            onClick={handleRegisterBusiness}
+                          >
+                            {t.forms.registerBusiness}
+                          </button>
+                          <button
+                            className="btn btn-outline"
+                            style={{ marginLeft: "10px" }}
+                          >
+                            {t.forms.login}
+                          </button>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="form-group full-width">
+                          <label htmlFor="job-positions">
+                            {t.forms.jobPositions}
+                          </label>
+                          <textarea
+                            id="job-positions"
+                            rows="4"
+                            placeholder={t.forms.jobPositionsPlaceholder}
+                          ></textarea>
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="required-skills">
+                            {t.forms.requiredSkills}
+                          </label>
+                          <input
+                            type="text"
+                            id="required-skills"
+                            placeholder={t.forms.requiredSkillsPlaceholder}
+                            value={newRequiredSkill}
+                            onChange={(e) =>
+                              setNewRequiredSkill(e.target.value)
+                            }
+                            onKeyPress={handleAddRequiredSkill}
+                          />
+                          <div className="skills-list">
+                            {requiredSkills.map((skill, index) => (
+                              <span key={index} className="skill-tag">
+                                {skill}
+                                <span
+                                  style={{
+                                    marginLeft: "5px",
+                                    cursor: "pointer",
+                                  }}
+                                  onClick={() =>
+                                    handleRemoveRequiredSkill(index)
+                                  }
+                                >
+                                  ×
+                                </span>
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {/* Login Modal */}
+            {activePage === "login" && <LoginPage />}
+
+            {/* Dashboard Page */}
+            {activePage === "dashboard" && isLoggedIn && (
+              <section className="section">
+                <div className="container">
+                  <h1 className="section-title" style={{ textAlign: "left" }}>
+                    {t.dashboard.welcome}
+                  </h1>
+                  <div className="dashboard">
+                    <div className="profile-card">
+                      <div className="profile-image">
+                        AJ
+                        <div className="verified-badge">✓</div>
+                      </div>
+                      <h3 className="profile-name">
+                        {t.dashboard.profile.name}
+                      </h3>
+                      <p className="profile-title">
+                        {t.dashboard.profile.title}
+                      </p>
+                      <div>
+                        <h4>Current Skills:</h4>
+                        <div className="skills-list">
+                          <span className="skill-tag">Welding L2</span>
+                          <span className="skill-tag">Digital Literacy L1</span>
+                          <span className="skill-tag">
+                            Solar Panel Installation L1
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="dashboard-content">
+                      <div className="dashboard-card">
+                        <h3 className="card-title">{t.dashboard.skillGap}</h3>
+                        <div className="skill-gap-chart">
+                          Radar Chart: User Skills vs Required Job Role
+                        </div>
+                        <p
+                          style={{
+                            fontSize: "12px",
+                            color: "#6B7280",
+                            marginTop: "10px",
+                          }}
+                        >
+                          Blue: Your Skills | Orange: Required for Solar
+                          Technician
+                        </p>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "30px",
+                        }}
+                      >
+                        <div
+                          className="dashboard-card"
+                          style={{ textAlign: "center" }}
+                        >
+                          <h3 className="card-title">{t.dashboard.progress}</h3>
+                          <div className="progress-circle">
+                            <div className="progress-text">80%</div>
+                          </div>
+                          <p>{t.dashboard.ready}</p>
+                          <div
+                            style={{
+                              color: "#F59E0B",
+                              fontWeight: "600",
+                              marginTop: "10px",
+                            }}
+                          >
+                            <span role="img" aria-label="shield">
+                              🛡️
+                            </span>{" "}
+                            {t.dashboard.unlocked}
+                          </div>
+                        </div>
+                        <div
+                          className="dashboard-card"
+                          style={{ textAlign: "center" }}
+                        >
+                          <svg
+                            style={{
+                              width: "48px",
+                              height: "48px",
+                              color: "#3B82F6",
+                              margin: "0 auto 10px",
+                            }}
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.43 12.56 13 13.01 13 14h-2c0-.56.44-1.01 1-1.46l.9-.92C13.79 11.23 14 10.79 14 10c0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .79-.21 1.54-.63 2.19z"></path>
+                          </svg>
+                          <p style={{ fontWeight: "600" }}>
+                            {t.dashboard.askAI}
+                          </p>
+                          <p style={{ fontSize: "14px", color: "#6B7280" }}>
+                            {t.dashboard.aiDesc}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="dashboard-card" style={{ marginTop: "30px" }}>
+                    <h3 className="card-title">{t.dashboard.topMatches}</h3>
+                    <div className="job-match-dashboard">
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "20px",
+                        }}
+                      >
+                        <div className="match-percentage-dashboard">
+                          {t.dashboard.match1.percent}
+                        </div>
+                        <div className="job-details">
+                          <h4>{t.dashboard.match1.title}</h4>
+                          <p>{t.dashboard.match1.desc}</p>
+                        </div>
+                      </div>
+                      <div style={{ display: "flex", gap: "10px" }}>
+                        <button className="btn btn-secondary">
+                          {t.dashboard.closeGap}
+                        </button>
+                        <button className="btn btn-outline">
+                          {t.dashboard.viewDetails}
+                        </button>
+                      </div>
+                    </div>
+                    <div className="job-match-dashboard">
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "20px",
+                        }}
+                      >
+                        <div
+                          className="match-percentage-dashboard"
+                          style={{ color: "#F59E0B" }}
+                        >
+                          {t.dashboard.match2.percent}
+                        </div>
+                        <div className="job-details">
+                          <h4>{t.dashboard.match2.title}</h4>
+                          <p>{t.dashboard.match2.desc}</p>
+                        </div>
+                      </div>
+                      <button className="btn btn-primary">
+                        {t.dashboard.applyNow}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {/* Footer */}
+            <footer>
+              <div className="container">
+                <div className="footer-content">
+                  <div className="footer-column">
+                    <h3>JobGati</h3>
+                    <p>AI-Powered Hyperlocal Skill-to-Job Match Platform</p>
+                  </div>
+                  <div className="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul className="footer-links">
+                      <li>
+                        <a href="#" onClick={() => setActivePage("home")}>
+                          Home
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          onClick={() => setActivePage("jobSeekerRegistration")}
+                        >
+                          For Job Seekers
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          onClick={() => setActivePage("businessRegistration")}
+                        >
+                          For Businesses
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" onClick={() => setActivePage("about")}>
+                          About Us
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" onClick={() => setActivePage("contact")}>
+                          Contact
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul className="footer-links">
+                      <li>Email: info@jobgati.com</li>
+                      <li>Phone: +91 9876543210</li>
+                      <li>
+                        Address: Skill Development Center, New Delhi, India
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="footer-column">
+                    <h3>Follow Us</h3>
+                    <ul className="footer-links">
+                      <li>
+                        <a href="#">Facebook</a>
+                      </li>
+                      <li>
+                        <a href="#">Twitter</a>
+                      </li>
+                      <li>
+                        <a href="#">LinkedIn</a>
+                      </li>
+                      <li>
+                        <a href="#">Instagram</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="footer-bottom">
+                  <p>&copy; 2025 JobGati. All rights reserved.</p>
+                </div>
+              </div>
+            </footer>
+
+            {/* Karma AI Button */}
+            <div className="karma-ai">
+              <svg
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm4 11h8V13H8v2zm0-3h8V10H8v2z"></path>
+              </svg>
+            </div>
+
+            {/* Login Modal */}
+            <button
+              className="btn btn-primary"
+              onClick={() => setActivePage("login")}
+            >
+              Login
+            </button>
+          </div>
+        );
+      }
+
+      // Render the App
+      ReactDOM.render(<App />, document.getElementById("root"));
     </script>
-</body>
+  </body>
 </html>
